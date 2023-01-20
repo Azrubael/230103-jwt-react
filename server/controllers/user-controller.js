@@ -33,9 +33,13 @@ class UserController {
 
    async activate(req, res, next) {
       try {
-
+         const activationLink = req.params.link
+         await userService.activate(activationLink)
+         //редирект хоста на фронтенд при помощи express
+         // return res.redirect(process.env.API_URL)
+         return res.redirect(process.env.CLIENT_URL)
       } catch(e) {
-
+         console.log(e)
       }
    }
 

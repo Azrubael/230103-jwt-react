@@ -18,12 +18,12 @@ class UserService {
       const hashPassword = await bcrypt.hash(password, 3)
       // генерирование ссылки для активации аккауна и подтверждения емейла
       // вызовом функции, которая вернет уникальную строку
-      const activationLink = uuid.v4  //v34fa-asfasf-142saf-sa-asf
+      const activationLink = uuid.v4()  //v34fa-asfasf-142saf-sa-asf
       // сохранение пользователя в базу данных
       const user = await UserModel.create({email, password: hashPassword, activationLink})
 
-      // отправка на имейл пользователю письмо для активации
-      await mailService.sendActivationMail(email, activationLink)
+      // отправка на имейл пользователю письма для активации
+      await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
 
       const userDto = new UserDto(user) // id, email,isActivated
       // получение токенов аксесс и рефреш путем разворачивания userDto оператором spread
@@ -32,6 +32,16 @@ class UserService {
       await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
       return { ...tokens, user: userDto }
+   }
+
+   async activate(activationLink) {
+      const user = await UserModel.findOne({activationLink})
+      if (!user) {
+         throw new Error('Некорректная ссылка активации')
+      }
+      user.isActivated = true
+      await user.save()
+
    }
 }
 
