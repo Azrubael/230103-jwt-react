@@ -13,7 +13,10 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors())            // отвечает за взаимодействие сервера с браузером
+app.use(cors(  {            // отвечает за взаимодействие сервера с браузером
+   credentials: true,
+   origin: process.env.CLIENT_URL
+}))            
 app.use('/api', router)
 app.use(errorMiddleware)   // Middleware обработки ошибок д/быть последним!!!
 

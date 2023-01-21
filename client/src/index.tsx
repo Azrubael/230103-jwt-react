@@ -1,5 +1,6 @@
 import React, { createContext } from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import App from './App'
 import Store from './store/store'
 
@@ -13,11 +14,21 @@ export const Context = createContext<State>({
   store,
 })
 
-ReactDOM.render(
+const container = document.getElementById('root')
+const root = createRoot(container!)
+root.render(
     <Context.Provider value={{
       store
     }}>
     <App />
-    </Context.Provider>,
-    document.getElementById('root')
+    </Context.Provider>
 )
+
+// ReactDOM.render(
+//     <Context.Provider value={{
+//       store
+//     }}>
+//     <App />
+//     </Context.Provider>,
+//     document.getElementById('root')
+// )
