@@ -6,10 +6,14 @@ The client is developed with a standard template:
 
 ```
 To start server
+
 	./server$	npm run dev
+	
 The server will be started at 'http://localhost:9009'
 
 ```
 To start client
+
 	./client$	npm start
+	
 The client will be automatically launched in the default browser at 'http://localhost:3000'
